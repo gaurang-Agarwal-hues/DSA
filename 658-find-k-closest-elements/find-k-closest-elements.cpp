@@ -26,7 +26,7 @@ struct cmp {
             pq.pop();
             pq.push(f);
            }
-        else   if (f.first==pq.top().first && f.second<pq.top().second){
+          if (f.first==pq.top().first && f.second<pq.top().second){
             pq.pop();
             pq.push(f);
            }
