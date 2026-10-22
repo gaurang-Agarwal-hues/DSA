@@ -1,20 +1,25 @@
 class Solution {
-public:
+public: bool find(int target,int n, vector<int>&a,vector<vector<int>>&dp){
+    if (target==0) return true;
+   if (n == 0) return a[0] == target;
+   if(dp[n][target]!= -1) {
+    return dp[n][target];
+   }
+    bool notTake = find(target,n-1,a,dp);
+    bool take = false;
+    if(target>=a[n]){
+        take = find(target-a[n],n-1,a,dp);
+    }
+ return dp[n][target] = ( take || notTake);
+}
     bool canPartition(vector<int>& nums) {
         int totalSum = 0;
-        for (int num : nums) totalSum += num;
-
-        if (totalSum % 2 != 0) return false;
-
-        int targetSum = totalSum / 2;
-        vector<bool> dp(targetSum + 1, false);
-        dp[0] = true;
-        for (int num : nums) {
-            for (int currSum = targetSum; currSum >= num; --currSum) {
-                dp[currSum] = dp[currSum] || dp[currSum - num];
-                if (dp[targetSum]) return true;
-            }
+        for(int i = 0;i<nums.size();i++){
+            totalSum = totalSum + nums[i];
         }
-        return dp[targetSum];
+        int target = totalSum/2;
+        if (totalSum % 2 !=0) return false;
+        vector<vector<int>> dp(nums.size(),vector<int>(target+1,-1)); 
+        return  find(totalSum/2,nums.size()-1,nums,dp);
     }
 };
